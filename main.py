@@ -43,6 +43,19 @@ def court_surface(df):
     fig1.update_layout(title_text='Players With the Most Wins on Grass Court', title_x=0.5)
     fig1.show()
 
+    hard_court = winner_loser[winner_loser['surface'] == 'Hard']
+    hard_court_top10 = hard_court.nlargest(10, 'won')
+    # print(hard_court_top10)
+    fig2 = px.bar(hard_court_top10, x='name', y='won', color_discrete_sequence =['blue'], hover_data=['surface_total', 'win_rate'],
+                 labels={
+                     'name': 'Player Name',
+                     'won': 'Games Won',
+                     'surface_total': 'Total Matches on Hard',
+                     'win_rate': 'Winning Percentage on Hard'
+                 })
+    fig2.update_layout(title='Players With the Most Wins on Hard Court', title_x=0.5)
+    fig2.show()
+
     clay_court = winner_loser[winner_loser['surface'] == 'Clay'] #fig 3
     clay_court_top10 = clay_court.nlargest(10, 'won')
     fig3 = px.bar(clay_court_top10, x='name', y='won', color_discrete_sequence =['red'], hover_data=['surface_total', 'win_rate'],
@@ -55,12 +68,17 @@ def court_surface(df):
     fig3.update_layout(title_text='Players With the Most Wins on Clay Court', title_x=0.5)
     fig3.show()
 
-
-    # hard_court = winner_loser[winner_loser['surface'] == 'Hard'] #fig 2
-    # print(hard_court.nlargest(10, 'won'))
-
-    # carpet_court = winner_loser[winner_loser['surface'] == 'Carpet'] #fig 4
-    # print(carpet_court.nlargest(10, 'won'))
+    carpet_court = winner_loser[winner_loser['surface'] == 'Carpet']
+    carpet_court_top10 = carpet_court.nlargest(10, 'won')
+    fig4 = px.bar(carpet_court_top10, x='name', y='won', color_discrete_sequence =['grey'], hover_data=['surface_total', 'win_rate'],
+                 labels={
+                     'name': 'Player Name',
+                     'won': 'Games Won',
+                     'surface_total': 'Total Matches on Carpet',
+                     'win_rate': 'Winning Percentage on Carpet'
+                 })
+    fig4.update_layout(title='Players With the Most Wins on Carpet Court', title_x=0.5)
+    fig4.show()
 
 
 if __name__ == '__main__':
