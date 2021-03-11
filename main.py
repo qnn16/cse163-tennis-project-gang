@@ -9,6 +9,9 @@ In this file,
 import pandas as pd
 import glob
 import plotly.express as px
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
 
 
 def combine_file(directory):
@@ -145,20 +148,85 @@ def first_set_win(df):
 def hand_dominance(df):
     """
     """
-    pass
+    hand = df.loc[:, ['winner_hand', 'loser_hand', 'surface']]
+    right = (hand['winner_hand'] == 'R') | (hand['loser_hand'] == 'R')
+    left = (hand['winner_hand'] == 'L') | (hand['loser_hand'] == 'L')
+    hand = hand[right & left]
+    hand = hand.value_counts().to_frame().reset_index()
+    hand.columns = ['winner_hand', 'loser_hand', 'surface', 'counts']
+    hand.to_csv('test.csv')
+
+    # overall matchup statistics no matter the court
+    fig1 = px.pie(hand, values='counts', names='winner_hand')
+    fig1.update_layout(title='Win Percentage of Tennis Matches based on Hand Dominance', title_x=0.5)
+    fig1.update_traces(textposition='inside', textinfo='percent+label')
+    fig1.show()
+
+    # hard court matchup stats
+    hard = hand[hand['surface'] == 'Hard']
+    fig2 = px.pie(hard, values='counts', names='winner_hand', color_discrete_sequence=['blue'])
+    fig2.update_layout(title='Hard Court Win Percentage based on Hand Dominance', title_x=0.5)
+    fig2.update_traces(textposition='inside', textinfo='percent+label')
+    fig2.show()
+
+    # grass court matchup stats
+    grass = hand[hand['surface'] == 'Grass']
+    fig3 = px.pie(grass, values='counts', names='winner_hand', color_discrete_sequence=['green'])
+    fig3.update_layout(title='Grass Court Win Percentage based on Hand Dominance', title_x=0.5)
+    fig3.update_traces(textposition='inside', textinfo='percent+label')
+    fig3.show()
+
+    # clay court matchup stats
+    clay = hand[hand['surface'] == 'Clay']
+    fig4 = px.pie(clay, values='counts', names='winner_hand', color_discrete_sequence=['red'])
+    fig4.update_layout(title='Clay Court Win Percentage based on Hand Dominance', title_x=0.5)
+    fig4.update_traces(textposition='inside', textinfo='percent+label')
+    fig4.show()
+
+    # carpet court matchup stats
+    carpet = hand[hand['surface'] == 'Carpet']
+    fig5 = px.pie(carpet, values='counts', names='winner_hand', color_discrete_sequence=['orange'])
+    fig5.update_layout(title='Carpet Court Win Percentage based on Hand Dominance', title_x=0.5)
+    fig5.update_traces(textposition='inside', textinfo='percent+label')
+    fig5.show()
 
 
 def predict_match_outcome(df):
     """
+    number of ace diff = abs(w_ace - 1_ace)
     """
-    pass
+    scores = df.loc[:, ['winner_name', 'score', 'surface', 'winner_hand',
+                        'winner_ioc', 'winner_age', 'loser_hand',
+                        'loser_ioc', 'loser_age', 'minutes', 'w_ace',
+                        'l_ace']]
+    scores = scores.dropna()
+    features = scores.loc[:, scores.columns != 'winner_name']
+    features = pd.get_dummies(features)
+    labels = scores['winner_name']
+    features_train, features_test, labels_train, labels_test \
+        = train_test_split(features, labels, test_size=0.2)
+
+    # model = DecisionTreeRegressor()
+    # model.fit(features, labels)
+    # predictions = model.predict(features)
+    # error = mean_squared_error(labels, predictions)
+    model = DecisionTreeClassifier()
+    model.fit(features_train, labels_train)
+    train_pred = model.predict(features_train)
+    train_acc = accuracy_score(labels_train, train_pred)
+    test_pred = model.predict(features_test)
+    test_acc = accuracy_score(labels_test, test_pred)
+    print(train_acc)
+    print(test_acc)
 
 
 def main():
     directory = 'data/'
     data = combine_file(directory)
-    court_surface(data)
-    first_set_win(data)
+    # court_surface(data)
+    # first_set_win(data)
+    # hand_dominance(data)
+    predict_match_outcome(data)
 
 
 if __name__ == '__main__':
