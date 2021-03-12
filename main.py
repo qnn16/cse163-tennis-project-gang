@@ -9,6 +9,7 @@ In this file,
 import pandas as pd
 import glob
 import plotly.express as px
+import re
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -127,22 +128,24 @@ def first_set_win(df):
 
     Special cases: If the the dataframe is empty, it will return None.
     """
-    scores = df.loc[:, ['winner_name', 'score']]
     # changes the scores from a string to a list of scores
     # remove unknown and walkover scores and injuries
-    scores['first_score'] = scores.score.astype(str).str.split('-').str[0]
-    # print(scores['first_score'].unique())
-    scores = scores[scores['first_score'].apply(lambda x: x.isnumeric())]
-    total = len(scores)
-    scores['first_score'] = pd.to_numeric(scores['first_score'])
-    won_first_set = scores[scores['first_score'] > 5]
-    win = len(won_first_set)
-    lost_first_set = scores[scores['first_score'] < 6]
-    won_first_set.to_csv('won_first_set.csv')
-    lost_first_set.to_csv('lost_first_set.csv')
-    if total == 0:
-        return None
-    return win / total
+
+    # first set score of match winner
+    scores = df.loc[:, ['winner_name', 'loser_name', 'score']]
+    scores['first_score_mw'] = scores.score.astype(str).str.split('[-|(|)| ]').str[0]
+    scores = scores[scores['first_score_mw'].apply(lambda x: x.isnumeric())]
+    scores['first_score_mw'] = scores['first_score_mw'].astype(int)
+
+    # first set score of match loser
+    scores['first_score_ml'] = scores.score.astype(str).str.split('[-|(|)| ]').str[1]
+    scores = scores[scores['first_score_ml'].apply(lambda x: x.isnumeric())]
+    scores['first_score_ml'] = scores['first_score_ml'].astype(int)
+
+    won_set_won_game = scores[scores['first_score_mw'] > scores['first_score_ml']]
+    won_set_lost_game = scores[scores['first_score_ml'] > scores['first_score_mw']]
+
+    return round(len(won_set_won_game) / len(scores) * 100, 2)
 
 
 def hand_dominance(df):
@@ -195,21 +198,31 @@ def predict_match_outcome(df):
     """
     number of ace diff = abs(w_ace - 1_ace)
     """
-    scores = df.loc[:, ['winner_name', 'score', 'surface', 'winner_hand',
-                        'winner_ioc', 'winner_age', 'loser_hand',
-                        'loser_ioc', 'loser_age', 'minutes', 'w_ace',
-                        'l_ace']]
-    scores = scores.dropna()
-    features = scores.loc[:, scores.columns != 'winner_name']
+    winner = df.loc[:, ['winner_name', 'score', 'w_ace', 'w_df', 'w_svpt', 'w_1stIn', 'w_1stWon', 'w_2ndWon', 'w_SvGms', 'w_bpSaved', 'w_bpFaced']]
+
+    winner = winner.dropna()
+    winner['winner_name'] = 'W'
+    winner = winner.rename(columns={'winner_name': 'Won/Lost',
+        'w_ace': 'ace', 'w_df': 'df', 'w_svpt': 'svpt', 'w_1stIn': '1stIn', 'w_1stWon': '1stWon', 'w_2ndWon': '2ndWon', 'w_SvGms': 'SvGms', 'w_bpSaved': 'bpSaved', 'w_bpFaced': 'bpFaced'})
+    # print(winner.head())
+
+    loser = df.loc[:, ['loser_name', 'score', 'l_ace', 'l_df', 'l_svpt', 'l_1stIn', 'l_1stWon', 'l_2ndWon', 'l_SvGms', 'l_bpSaved', 'l_bpFaced']]
+
+    loser = loser.dropna()
+    loser['loser_name'] = 'L'
+    loser = loser.rename(columns={'loser_name': 'Won/Lost',
+        'l_ace': 'ace', 'l_df': 'df', 'l_svpt': 'svpt', 'l_1stIn': '1stIn', 'l_1stWon': '1stWon', 'l_2ndWon': '2ndWon', 'l_SvGms': 'SvGms', 'l_bpSaved': 'bpSaved', 'l_bpFaced': 'bpFaced'})
+    # print(loser.head())
+
+    test = pd.concat([winner, loser], ignore_index=True)
+    test.to_csv('test2.csv')
+    # print(len(test))
+
+    features = test.loc[:, test.columns != 'Won/Lost']
     features = pd.get_dummies(features)
-    labels = scores['winner_name']
+    labels = test['Won/Lost']
     features_train, features_test, labels_train, labels_test \
         = train_test_split(features, labels, test_size=0.2)
-
-    # model = DecisionTreeRegressor()
-    # model.fit(features, labels)
-    # predictions = model.predict(features)
-    # error = mean_squared_error(labels, predictions)
     model = DecisionTreeClassifier()
     model.fit(features_train, labels_train)
     train_pred = model.predict(features_train)
@@ -224,7 +237,7 @@ def main():
     directory = 'data/'
     data = combine_file(directory)
     # court_surface(data)
-    # first_set_win(data)
+    # print(first_set_win(data))
     # hand_dominance(data)
     predict_match_outcome(data)
 
