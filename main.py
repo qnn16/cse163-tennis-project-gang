@@ -118,6 +118,28 @@ def court_surface(df):
     # fig4.show()
 
 # figure 5 is top 10 player overall
+    top_10 = winner_loser
+    top_10['total_won'] = (top_10['won']
+                         .groupby(top_10['name'])
+                         .transform('sum'))
+    top_10 = top_10.nlargest(40, 'total_won')
+    fig5 = px.bar(top_10, x='name', y='won', color='surface',
+                  color_discrete_map={
+                      'Carpet': 'orange',
+                      'Clay': '#EF553B',
+                      'Grass': '#00CC96',
+                      'Hard': '#636EFA'},
+                  hover_data=['surface_total', 'win_rate'],
+                  labels={
+                     'name': 'Player Name',
+                     'won': 'Games Won',
+                     'surface_total': 'Total Matches on Surface',
+                     'win_rate': 'Winning Percentage on Surface'
+                  })
+    fig5.update_layout(title='Top 10 Players with the Most Wins Overall',
+                       title_x=0.5)
+    # fig5.show()
+
 
 
 def first_set_win(df):
@@ -236,10 +258,10 @@ def predict_match_outcome(df):
 def main():
     directory = 'data/'
     data = combine_file(directory)
-    # court_surface(data)
+    court_surface(data)
     # print(first_set_win(data))
     # hand_dominance(data)
-    predict_match_outcome(data)
+    # predict_match_outcome(data)
 
 
 if __name__ == '__main__':
