@@ -1,7 +1,7 @@
 # Analysis on Men's Professional Tennis Match Outcomes
 #### By Steven and Quang Nguyen
 
-### Research Questions
+## Research Questions
 
 -   **How does the surface of the court affect the outcome of the match? Does this give an advantage to a player?**
     > In certain cases, we noticed in tournaments there are different types of courts that these tournaments are runned on like grass, hard and clay courts. So, we are computing the result of the match based on the surface of the court. With this we can see if having a different surface gives an advantage to some players when playing on those courts.
