@@ -1,7 +1,7 @@
 # Analysis on Men's Professional Tennis Match Outcomes
 #### By Steven and Quang Nguyen
 
-### Research Questions
+## Research Questions
 
 -   **How does the surface of the court affect the outcome of the match? Does this give an advantage to a player?**
     > In certain cases, we noticed in tournaments there are different types of courts that these tournaments are runned on like grass, hard and clay courts. So, we are computing the result of the match based on the surface of the court. With this we can see if having a different surface gives an advantage to some players when playing on those courts.
@@ -44,7 +44,7 @@
     - Create dataframes
 - **Make model to predict match outcome (12 hours)**
     - Training set and testing set for ML
-- **Analysis for court surfaces and match outcomes based on hand dominance (4 hours)
+- **Analysis for court surfaces and match outcomes based on hand dominance (4 hours)**
     - Compute the wins when the first set is won
     - Running tests to see if the program is properly running
 - **Results (4 hours)**
