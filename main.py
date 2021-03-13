@@ -9,7 +9,6 @@ In this file,
 import pandas as pd
 import glob
 import plotly.express as px
-import re
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -39,6 +38,15 @@ def court_surface(df):
 
     Special cases:
     """
+def court_surface(df):
+    """
+    In this function, it takes a dataframe and will create four bar graphs
+    presenting the top 10 players that won the most games within that
+    type of court. With plotly, the bar graph displays the name, games won
+    on that court, number of times that player played on that court, and
+    their winning percentage on that court.
+    Special cases:
+    """
     winner = df.groupby(['winner_name', 'surface'], as_index=False).size()
     loser = df.groupby(['loser_name', 'surface'], as_index=False).size()
     winner_loser = winner.merge(loser, left_on=['winner_name', 'surface'],
@@ -60,7 +68,6 @@ def court_surface(df):
     grass_court = winner_loser[winner_loser['surface'] == 'Grass']
     grass_court_top10 = grass_court.nlargest(10, 'won')
     fig1 = px.bar(grass_court_top10, x='name', y='won',
-                  color_discrete_sequence=['green'],
                   hover_data=['surface_total', 'win_rate'],
                   labels={
                      'name': 'Player Name',
@@ -68,9 +75,10 @@ def court_surface(df):
                      'surface_total': 'Total Matches on Grass',
                      'win_rate': 'Winning Percentage on Grass'
                   })
+    fig1.update_traces(marker_color='#00CC96')
     fig1.update_layout(title_text='Players With the Most Wins on Grass Court',
                        title_x=0.5)
-    # fig1.show()
+    fig1.show()
 
     hard_court = winner_loser[winner_loser['surface'] == 'Hard']
     hard_court_top10 = hard_court.nlargest(10, 'won')
@@ -83,9 +91,10 @@ def court_surface(df):
                      'surface_total': 'Total Matches on Hard',
                      'win_rate': 'Winning Percentage on Hard'
                   })
+    fig2.update_traces(marker_color='#636EFA')
     fig2.update_layout(title='Players With the Most Wins on Hard Court',
                        title_x=0.5)
-    # fig2.show()
+    fig2.show()
 
     clay_court = winner_loser[winner_loser['surface'] == 'Clay']
     clay_court_top10 = clay_court.nlargest(10, 'won')
@@ -98,9 +107,10 @@ def court_surface(df):
                      'surface_total': 'Total Matches on Clay',
                      'win_rate': 'Winning Percentage on Clay'
                   })
+    fig3.update_traces(marker_color='#EF553B')
     fig3.update_layout(title_text='Players With the Most Wins on Clay Court',
                        title_x=0.5)
-    # fig3.show()
+    fig3.show()
 
     carpet_court = winner_loser[winner_loser['surface'] == 'Carpet']
     carpet_court_top10 = carpet_court.nlargest(10, 'won')
@@ -115,7 +125,7 @@ def court_surface(df):
                   })
     fig4.update_layout(title='Players With the Most Wins on Carpet Court',
                        title_x=0.5)
-    # fig4.show()
+    fig4.show()
 
 # figure 5 is top 10 player overall
     top_10 = winner_loser
@@ -138,7 +148,7 @@ def court_surface(df):
                   })
     fig5.update_layout(title='Top 10 Players with the Most Wins Overall',
                        title_x=0.5)
-    # fig5.show()
+    fig5.show()
 
 
 
@@ -179,7 +189,6 @@ def hand_dominance(df):
     hand = hand[right & left]
     hand = hand.value_counts().to_frame().reset_index()
     hand.columns = ['winner_hand', 'loser_hand', 'surface', 'counts']
-    hand.to_csv('test.csv')
 
     # overall matchup statistics no matter the court
     fig1 = px.pie(hand, values='counts', names='winner_hand')
@@ -237,7 +246,6 @@ def predict_match_outcome(df):
     # print(loser.head())
 
     test = pd.concat([winner, loser], ignore_index=True)
-    test.to_csv('test2.csv')
     # print(len(test))
 
     features = test.loc[:, test.columns != 'Won/Lost']
