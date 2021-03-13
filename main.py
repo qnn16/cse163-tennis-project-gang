@@ -78,7 +78,7 @@ def court_surface(df):
     fig1.update_traces(marker_color='#00CC96')
     fig1.update_layout(title_text='Players With the Most Wins on Grass Court',
                        title_x=0.5)
-    fig1.show()
+    # fig1.show()
 
     hard_court = winner_loser[winner_loser['surface'] == 'Hard']
     hard_court_top10 = hard_court.nlargest(10, 'won')
@@ -94,7 +94,7 @@ def court_surface(df):
     fig2.update_traces(marker_color='#636EFA')
     fig2.update_layout(title='Players With the Most Wins on Hard Court',
                        title_x=0.5)
-    fig2.show()
+    # fig2.show()
 
     clay_court = winner_loser[winner_loser['surface'] == 'Clay']
     clay_court_top10 = clay_court.nlargest(10, 'won')
@@ -110,7 +110,7 @@ def court_surface(df):
     fig3.update_traces(marker_color='#EF553B')
     fig3.update_layout(title_text='Players With the Most Wins on Clay Court',
                        title_x=0.5)
-    fig3.show()
+    # fig3.show()
 
     carpet_court = winner_loser[winner_loser['surface'] == 'Carpet']
     carpet_court_top10 = carpet_court.nlargest(10, 'won')
@@ -125,7 +125,7 @@ def court_surface(df):
                   })
     fig4.update_layout(title='Players With the Most Wins on Carpet Court',
                        title_x=0.5)
-    fig4.show()
+    # fig4.show()
 
 # figure 5 is top 10 player overall
     top_10 = winner_loser
@@ -148,8 +148,12 @@ def court_surface(df):
                   })
     fig5.update_layout(title='Top 10 Players with the Most Wins Overall',
                        title_x=0.5)
-    fig5.show()
-
+    # fig5.show()
+    # fig1.write_html('graphs/court surface/grass.html')
+    # fig2.write_html('graphs/court surface/hard.html')
+    # fig3.write_html('graphs/court surface/clay.html')
+    # fig4.write_html('graphs/court surface/carpet.html')
+    # fig5.write_html('graphs/court surface/top10overall.html')
 
 
 def first_set_win(df):
@@ -224,6 +228,12 @@ def hand_dominance(df):
     fig5.update_traces(textposition='inside', textinfo='percent+label')
     fig5.show()
 
+    # fig1.write_html('graphs/hand dominance/all_surfaces.html')
+    # fig2.write_html('graphs/hand dominance/hard.html')
+    # fig3.write_html('graphs/hand dominance/grass.html')
+    # fig4.write_html('graphs/hand dominance/clay.html')
+    # fig5.write_html('graphs/hand dominance/carpet.html')
+
 
 def predict_match_outcome(df):
     """
@@ -266,7 +276,7 @@ def predict_match_outcome(df):
 def main():
     directory = 'data/'
     data = combine_file(directory)
-    court_surface(data)
+    # court_surface(data)
     # print(first_set_win(data))
     # hand_dominance(data)
     # predict_match_outcome(data)
