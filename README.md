@@ -44,7 +44,7 @@
     - Create dataframes
 - **Make model to predict match outcome (12 hours)**
     - Training set and testing set for ML
-- **Analysis for court surfaces and match outcomes based on hand dominance (4 hours)
+- **Analysis for court surfaces and match outcomes based on hand dominance (4 hours)**
     - Compute the wins when the first set is won
     - Running tests to see if the program is properly running
 - **Results (4 hours)**
