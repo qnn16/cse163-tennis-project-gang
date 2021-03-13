@@ -1,5 +1,5 @@
 # Analysis on Men's Professional Tennis Match Outcomes
-##### By Steven and Quang Nguyen
+#### By Steven and Quang Nguyen
 
 ### Research Questions
 
@@ -11,7 +11,7 @@
     > During a tennis match, with the chances of going against an opponent with a different dominant hand. This could impact the gameplay of the players since the ball could be sliced and curve a different direction. Also there is a chance of having an opponent that is ambidextrous. So with this we are trying to find the chances of winning when a player is going against the opponent with a certain dominant hand.
 
 ## [Dataset](https://github.com/JeffSackmann/tennis_atp)
-##### - Within this dataset, it contains information about each and every match based on the year the tennis game was played. Within each dataset, it will contain information about:
+#### - Within this dataset, it contains information about each and every match based on the year the tennis game was played. Within each dataset, it will contain information about:
     - The tournament played at (name of tournament, draw size, data played)
     - Surface
     - Winner and loser
@@ -20,8 +20,8 @@
     - Ranks and rank points
 
 ## Challenge Goals
-> - We are using machine learning as one of our challenge goals in order to predict the match outcome based on information provided about the match including first serves won/lost, order of sets won/lost, and surface type. Our project will meet this goal because of all available specific statistical information about each match and the abundance of it for each year from 1968-2021.
-> - We are also planning to use a new library, plotly, to report and graph our findings such as win/loss statistics, rank points, and tournament statistics with an interactive user interface. Our project will meet this goal because of our familiarity with making graphs and plots within python and the amount of data that is included within our chosen dataset.
+> We are using machine learning as one of our challenge goals in order to predict the match outcome based on information provided about the match including first serves won/lost, order of sets won/lost, and surface type. Our project will meet this goal because of all available specific statistical information about each match and the abundance of it for each year from 1968-2021.
+> We are also planning to use a new library, plotly, to report and graph our findings such as win/loss statistics, rank points, and tournament statistics with an interactive user interface. Our project will meet this goal because of our familiarity with making graphs and plots within python and the amount of data that is included within our chosen dataset.
 
 ## Motivation and Background
 > In the world of sports, there are players who are exceptional enough to reach the peak level of their certain sport and play against the best. However, even then, there are players who continue to dominate even amongst the greatest players of their generation. From firsthand experience of playing and watching high-level competitive tennis, we would think about what allows a certain player to be better than another and ultimately defeat them in a match. Based on these thoughts, our motivation came from the curiosity of different variables that could benefit one person over the other, such as technique or even the environment. These attributes are reflected in the game analytics and with variables like the surface type of the court and the dominant hands of each player in a match. With this knowledge, we could possibly obtain information that could give players a better idea of what to expect in a match and how to possibly tweak their training so that they’re able to pinpoint weaknesses of their opponents and themselves in order to make it to the top level.
