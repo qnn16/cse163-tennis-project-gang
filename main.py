@@ -19,6 +19,8 @@ def combine_file(directory):
     """
     In this function, it takes a directory and returns a new dataframe
     combining all the csv files into one.
+    It will ignore any empty csv files in the directory and if the directory
+    only contains empty csv files, the function will return None
     """
     all_files = glob.glob(directory + "/*.csv")
     li = []
@@ -39,11 +41,10 @@ def court_surface(df):
     type of court. With plotly, the bar graph displays the name, games won
     on that court, number of times that player played on that court, and
     their winning percentage on that court.
-
     Special cases:
     """
-    winner = df.groupby(['winner_name', 'surface', 'winner_id'], as_index=False).size()
-    loser = df.groupby(['loser_name', 'surface', 'loser_id'], as_index=False).size()
+    winner = df.groupby(['winner_name', 'surface'], as_index=False).size()
+    loser = df.groupby(['loser_name', 'surface'], as_index=False).size()
     winner_loser = winner.merge(loser, left_on=['winner_name', 'surface'],
                                 right_on=['loser_name', 'surface'],
                                 how='inner')
@@ -57,24 +58,24 @@ def court_surface(df):
     winner_loser = winner_loser.drop(['loser_name'], axis=1)
     winner_loser['win_rate'] = round((winner_loser['won'] /
                                       winner_loser['surface_total']) * 100, 2)
-    # winner_loser.to_csv('winner_loser.csv')
-    # print(winner_loser)
 
+    # top 10 grass court players
     grass_court = winner_loser[winner_loser['surface'] == 'Grass']
     grass_court_top10 = grass_court.nlargest(10, 'won')
     fig1 = px.bar(grass_court_top10, x='name', y='won',
-                  color_discrete_sequence=['green'],
                   hover_data=['surface_total', 'win_rate'],
                   labels={
                      'name': 'Player Name',
-                     'won': 'Games Won',
+                     'won': 'Matches Won',
                      'surface_total': 'Total Matches on Grass',
                      'win_rate': 'Winning Percentage on Grass'
                   })
+    fig1.update_traces(marker_color='#00CC96')
     fig1.update_layout(title_text='Players With the Most Wins on Grass Court',
                        title_x=0.5)
-    fig1.show()
+    # fig1.show()
 
+    # top 10 hard court players
     hard_court = winner_loser[winner_loser['surface'] == 'Hard']
     hard_court_top10 = hard_court.nlargest(10, 'won')
     fig2 = px.bar(hard_court_top10, x='name', y='won',
@@ -82,14 +83,16 @@ def court_surface(df):
                   hover_data=['surface_total', 'win_rate'],
                   labels={
                      'name': 'Player Name',
-                     'won': 'Games Won',
+                     'won': 'Matches Won',
                      'surface_total': 'Total Matches on Hard',
                      'win_rate': 'Winning Percentage on Hard'
                   })
+    fig2.update_traces(marker_color='#636EFA')
     fig2.update_layout(title='Players With the Most Wins on Hard Court',
                        title_x=0.5)
-    fig2.show()
+    # fig2.show()
 
+    # top 10 clay court players
     clay_court = winner_loser[winner_loser['surface'] == 'Clay']
     clay_court_top10 = clay_court.nlargest(10, 'won')
     fig3 = px.bar(clay_court_top10, x='name', y='won',
@@ -97,14 +100,16 @@ def court_surface(df):
                   hover_data=['surface_total', 'win_rate'],
                   labels={
                      'name': 'Player Name',
-                     'won': 'Games Won',
+                     'won': 'Matches Won',
                      'surface_total': 'Total Matches on Clay',
                      'win_rate': 'Winning Percentage on Clay'
                   })
+    fig3.update_traces(marker_color='#EF553B')
     fig3.update_layout(title_text='Players With the Most Wins on Clay Court',
                        title_x=0.5)
-    fig3.show()
+    # fig3.show()
 
+    # top 10 carpet court players
     carpet_court = winner_loser[winner_loser['surface'] == 'Carpet']
     carpet_court_top10 = carpet_court.nlargest(10, 'won')
     fig4 = px.bar(carpet_court_top10, x='name', y='won',
@@ -112,21 +117,29 @@ def court_surface(df):
                   hover_data=['surface_total', 'win_rate'],
                   labels={
                      'name': 'Player Name',
-                     'won': 'Games Won',
+                     'won': 'Matches Won',
                      'surface_total': 'Total Matches on Carpet',
                      'win_rate': 'Winning Percentage on Carpet'
                   })
     fig4.update_layout(title='Players With the Most Wins on Carpet Court',
                        title_x=0.5)
-    fig4.show()
+    # fig4.show()
 
     # top 10 players overall with the most wins
     top_10 = winner_loser
     top_10['total_won'] = (top_10['won']
                            .groupby(top_10['name'])
                            .transform('sum'))
-    top_10_player_names = top_10.groupby('name')['total_matches'].mean().nlargest(10).to_frame().reset_index()
-    merged = top_10.merge(top_10_player_names, left_on=['name', 'total_matches'], right_on=['name', 'total_matches'], how='inner')
+    # we take the mean of the total_matches
+    # since it will return the number as a singular
+    top_10_player_names = (
+        top_10.groupby('name')['total_matches'].mean()
+                                               .nlargest(10)
+                                               .to_frame()
+                                               .reset_index())
+    merged = top_10.merge(top_10_player_names,
+                          left_on=['name', 'total_matches'],
+                          right_on=['name', 'total_matches'], how='inner')
     merged = merged.sort_values(by=['total_won'], ascending=False)
     fig5 = px.bar(merged, x='name', y='won', color='surface',
                   color_discrete_map={
@@ -161,17 +174,19 @@ def first_set_win(df):
     if len(df) == 0:
         return None
     scores = df.loc[:, ['winner_name', 'loser_name', 'score']]
-    scores['first_score_mw'] = scores.score.astype(str).str.split('[-|(|)| ]').str[0]
+    scores['first_score_mw'] = (scores.score.astype(str).str.split('[-|(|)| ]')
+                                .str[0])
     scores = scores[scores['first_score_mw'].apply(lambda x: x.isnumeric())]
     scores['first_score_mw'] = scores['first_score_mw'].astype(int)
 
     # first set score of match loser
-    scores['first_score_ml'] = scores.score.astype(str).str.split('[-|(|)| ]').str[1]
+    scores['first_score_ml'] = (scores.score.astype(str).str.split('[-|(|)| ]')
+                                .str[1])
     scores = scores[scores['first_score_ml'].apply(lambda x: x.isnumeric())]
     scores['first_score_ml'] = scores['first_score_ml'].astype(int)
 
-    won_set_won_game = scores[scores['first_score_mw'] >
-                              scores['first_score_ml']]
+    won_set_won_game = (scores[scores['first_score_mw'] >
+                               scores['first_score_ml']])
 
     return round(len(won_set_won_game) / len(scores) * 100, 2)
 
@@ -185,39 +200,52 @@ def hand_dominance(df):
     hand = hand[right & left]
     hand = hand.value_counts().to_frame().reset_index()
     hand.columns = ['winner_hand', 'loser_hand', 'surface', 'counts']
-    hand.to_csv('test.csv')
 
     # overall matchup statistics no matter the court
     fig1 = px.pie(hand, values='counts', names='winner_hand')
-    fig1.update_layout(title='Win Percentage of Tennis Matches based on Hand Dominance', title_x=0.5)
+    fig1.update_layout(
+        title='Win Percentage of Tennis Matches based on Hand Dominance',
+        title_x=0.5)
     fig1.update_traces(textposition='inside', textinfo='percent+label')
     fig1.show()
 
     # hard court matchup stats
     hard = hand[hand['surface'] == 'Hard']
-    fig2 = px.pie(hard, values='counts', names='winner_hand', color_discrete_sequence=['blue'])
-    fig2.update_layout(title='Hard Court Win Percentage based on Hand Dominance', title_x=0.5)
+    fig2 = px.pie(hard, values='counts', names='winner_hand',
+                  color_discrete_sequence=['blue'])
+    fig2.update_layout(
+        title='Hard Court Win Percentage based on Hand Dominance',
+        title_x=0.5)
     fig2.update_traces(textposition='inside', textinfo='percent+label')
     fig2.show()
 
     # grass court matchup stats
     grass = hand[hand['surface'] == 'Grass']
-    fig3 = px.pie(grass, values='counts', names='winner_hand', color_discrete_sequence=['green'])
-    fig3.update_layout(title='Grass Court Win Percentage based on Hand Dominance', title_x=0.5)
+    fig3 = px.pie(grass, values='counts', names='winner_hand',
+                  color_discrete_sequence=['green'])
+    fig3.update_layout(
+        title='Grass Court Win Percentage based on Hand Dominance',
+        title_x=0.5)
     fig3.update_traces(textposition='inside', textinfo='percent+label')
     fig3.show()
 
     # clay court matchup stats
     clay = hand[hand['surface'] == 'Clay']
-    fig4 = px.pie(clay, values='counts', names='winner_hand', color_discrete_sequence=['red'])
-    fig4.update_layout(title='Clay Court Win Percentage based on Hand Dominance', title_x=0.5)
+    fig4 = px.pie(clay, values='counts', names='winner_hand',
+                  color_discrete_sequence=['red'])
+    fig4.update_layout(
+        title='Clay Court Win Percentage based on Hand Dominance',
+        title_x=0.5)
     fig4.update_traces(textposition='inside', textinfo='percent+label')
     fig4.show()
 
     # carpet court matchup stats
     carpet = hand[hand['surface'] == 'Carpet']
-    fig5 = px.pie(carpet, values='counts', names='winner_hand', color_discrete_sequence=['orange'])
-    fig5.update_layout(title='Carpet Court Win Percentage based on Hand Dominance', title_x=0.5)
+    fig5 = px.pie(carpet, values='counts', names='winner_hand',
+                  color_discrete_sequence=['orange'])
+    fig5.update_layout(
+        title='Carpet Court Win Percentage based on Hand Dominance',
+        title_x=0.5)
     fig5.update_traces(textposition='inside', textinfo='percent+label')
     fig5.show()
 
@@ -226,24 +254,33 @@ def predict_match_outcome(df):
     """
     number of ace diff = abs(w_ace - 1_ace)
     """
-    winner = df.loc[:, ['winner_name', 'score', 'w_ace', 'w_df', 'w_svpt', 'w_1stIn', 'w_1stWon', 'w_2ndWon', 'w_SvGms', 'w_bpSaved', 'w_bpFaced']]
+    winner = df.loc[:, ['winner_name', 'score', 'w_ace', 'w_df', 'w_svpt',
+                        'w_1stIn', 'w_1stWon', 'w_2ndWon', 'w_SvGms',
+                        'w_bpSaved', 'w_bpFaced']]
 
     winner = winner.dropna()
     winner['winner_name'] = 'W'
-    winner = winner.rename(columns={'winner_name': 'Won/Lost',
-        'w_ace': 'ace', 'w_df': 'df', 'w_svpt': 'svpt', 'w_1stIn': '1stIn', 'w_1stWon': '1stWon', 'w_2ndWon': '2ndWon', 'w_SvGms': 'SvGms', 'w_bpSaved': 'bpSaved', 'w_bpFaced': 'bpFaced'})
+    winner = winner.rename(
+        columns={'winner_name': 'Won/Lost', 'w_ace': 'ace', 'w_df': 'df',
+                 'w_svpt': 'svpt', 'w_1stIn': '1stIn', 'w_1stWon': '1stWon',
+                 'w_2ndWon': '2ndWon', 'w_SvGms': 'SvGms',
+                 'w_bpSaved': 'bpSaved', 'w_bpFaced': 'bpFaced'})
     # print(winner.head())
 
-    loser = df.loc[:, ['loser_name', 'score', 'l_ace', 'l_df', 'l_svpt', 'l_1stIn', 'l_1stWon', 'l_2ndWon', 'l_SvGms', 'l_bpSaved', 'l_bpFaced']]
+    loser = df.loc[:, ['loser_name', 'score', 'l_ace', 'l_df', 'l_svpt',
+                       'l_1stIn', 'l_1stWon', 'l_2ndWon', 'l_SvGms',
+                       'l_bpSaved', 'l_bpFaced']]
 
     loser = loser.dropna()
     loser['loser_name'] = 'L'
-    loser = loser.rename(columns={'loser_name': 'Won/Lost',
-        'l_ace': 'ace', 'l_df': 'df', 'l_svpt': 'svpt', 'l_1stIn': '1stIn', 'l_1stWon': '1stWon', 'l_2ndWon': '2ndWon', 'l_SvGms': 'SvGms', 'l_bpSaved': 'bpSaved', 'l_bpFaced': 'bpFaced'})
+    loser = loser.rename(
+        columns={'loser_name': 'Won/Lost', 'l_ace': 'ace', 'l_df': 'df',
+                 'l_svpt': 'svpt', 'l_1stIn': '1stIn', 'l_1stWon': '1stWon',
+                 'l_2ndWon': '2ndWon', 'l_SvGms': 'SvGms',
+                 'l_bpSaved': 'bpSaved', 'l_bpFaced': 'bpFaced'})
     # print(loser.head())
 
     test = pd.concat([winner, loser], ignore_index=True)
-    test.to_csv('test2.csv')
     # print(len(test))
 
     features = test.loc[:, test.columns != 'Won/Lost']
@@ -267,20 +304,18 @@ def main():
     print(first_set_win(data))
     court_surface(data)
     hand_dominance(data)
-    
-    empty = 'testdata/'
-    empty_set = combine_file(empty)
-    assert first_set_win(empty_set) is None
-    
-    test_directory = 'testdata2/'
-    data_test = combine_file(test_directory)
-    assert first_set_win(data_test) == 100.0
-    
-    test2_directory = 'testdata3/'
-    data2_test = combine_file(test2_directory)
-    assert first_set_win(data2_test) == 85.71
-    
-    
+
+    # empty = 'testdata/'
+    # empty_set = combine_file(empty)
+    # assert first_set_win(empty_set) is None
+
+    # test_directory = 'testdata2/'
+    # data_test = combine_file(test_directory)
+    # assert first_set_win(data_test) == 100.0
+
+    # test2_directory = 'testdata3/'
+    # data2_test = combine_file(test2_directory)
+    # assert first_set_win(data2_test) == 85.71
     # predict_match_outcome(data)
 
 
