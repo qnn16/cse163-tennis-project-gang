@@ -1,8 +1,9 @@
 tourney_id,tourney_name,surface,draw_size,tourney_level,tourney_date,match_num,winner_id,winner_seed,winner_entry,winner_name,winner_hand,winner_ht,winner_ioc,winner_age,loser_id,loser_seed,loser_entry,loser_name,loser_hand,loser_ht,loser_ioc,loser_age,score,best_of,round,minutes,w_ace,w_df,w_svpt,w_1stIn,w_1stWon,w_2ndWon,w_SvGms,w_bpSaved,w_bpFaced,l_ace,l_df,l_svpt,l_1stIn,l_1stWon,l_2ndWon,l_SvGms,l_bpSaved,l_bpFaced,winner_rank,winner_rank_points,loser_rank,loser_rank_points
-1968-2029,Dublin,Grass,32,A,19680708,270,202866,,,Doug Smith,U,,AUS,,110196,,,Peter Ledbetter,U,,UNK,,6-1 7-5,3,R32,,,,,,,,,,,,,,,,,,,,,,,
-1968-2029,Dublin,Grass,32,A,19680708,271,126914,,,Louis Pretorius,R,,RSA,,209536,,,Maurice Pollock,U,,IRL,,6-1 6-1,3,R32,,,,,,,,,,,,,,,,,,,,,,,
-1968-2029,Dublin,Grass,32,A,19680708,272,209523,,,Cecil Pedlow,U,,IRL,,209535,,,John Mulvey,U,,IRL,,6-2 6-2,3,R32,,,,,,,,,,,,,,,,,,,,,,,
-2015-339,Brisbane,Hard,28,A,20150104,18,105683,3,,Milos Raonic,R,196,CAN,24.0246406571,105062,,,Mikhail Kukushkin,R,183,KAZ,27.0280629706,6-3 6-4,3,R16,61,17,4,48,31,28,12,10,0,0,1,1,54,32,22,12,9,2,4,8,4440,69,705
-2014-500,Halle,Grass,28,A,20140609,3,105732,,Q,Pierre Hugues Herbert,R,188,FRA,23.227926078,105668,8,,Jerzy Janowicz,R,203,POL,23.5701574264,7-6(5) 6-2,3,R32,91,11,3,59,37,28,13,10,3,5,6,13,81,48,33,12,10,10,14,135,423,24,1510
-2010-505,Santiago,Clay,32,A,20100201,10,105137,,,Pere Riba,R,183,ESP,21.8206707734,103490,,,Santiago Ventura,R,183,ESP,30.0752908966,6-3 7-5,3,R32,92,3,3,67,39,28,13,11,1,3,1,2,64,40,25,10,10,4,8,119,461,107,506
-2008-375,Lyon,Carpet,32,A,20081020,13,103990,5,,Tommy Robredo,R,180,ESP,26.4722792608,103566,,,Michael Llodra,L,190,FRA,28.424366872,6-4 6-3,3,R32,63,8,2,63,48,37,7,10,1,1,5,5,53,33,24,10,9,1,3,18,1285,38,875
+1988-316,Bastad,Clay,48,A,19880711,27,101285,14,,Thierry Champion,R,183,FRA,21.8617385352,101767,,WC,Lars Jonsson,R,188,SWE,18.0396988364,6-3 6-4,3,R32,,,,,,,,,,,,,,,,,,,,111,,870,
+1988-316,Bastad,Clay,48,A,19880711,28,101120,,,Karel Novacek,R,190,CZE,23.2826830938,101035,4,,Menno Oosting,R,180,NED,24.1505817933,6-2 6-1,3,R32,,,,,,,,,,,,,,,,,,,,161,,77,
+1988-316,Bastad,Clay,48,A,19880711,29,101274,8,,Udo Riglewski,R,185,GER,21.954825462,100900,,,Josef Cihak,R,185,CZE,25.3141683778,2-6 6-4 6-2,3,R32,,,,,,,,,,,,,,,,,,,,96,,165,
+1988-316,Bastad,Clay,48,A,19880711,30,101387,10,,Claudio Pistolesi,R,180,ITA,20.8788501027,101339,,,Agustin Moreno,R,180,MEX,21.2813141684,4-6 6-4 7-5,3,R32,,,,,,,,,,,,,,,,,,,,103,,130,
+1988-316,Bastad,Clay,48,A,19880711,31,100848,15,,Alberto Tous,R,175,ESP,25.9383983573,100908,,WC,Tobias Svantesson,R,193,SWE,25.2785763176,4-6 6-4 6-2,3,R32,,,,,,,,,,,,,,,,,,,,131,,144,
+1988-316,Bastad,Clay,48,A,19880711,32,100894,,,Francesco Cancellotti,R,183,ITA,25.3689253936,101320,2,,Magnus Gustafsson,R,185,SWE,21.5195071869,7-6 6-1,3,R32,,,,,,,,,,,,,,,,,,,,129,,44,
+1988-316,Bastad,Clay,48,A,19880711,33,100893,1,,Joakim Nystrom,R,188,SWE,25.3880903491,101232,16,,Nicklas Kroon,R,183,SWE,22.4284736482,3-6 6-4 6-1,3,R16,,,,,,,,,,,,,,,,,,,,23,,123,
+1988-316,Bastad,Clay,48,A,19880711,34,101382,7,,Marcelo Filippini,R,178,URU,20.9363449692,100595,,LL,Ronnie Bathman,R,183,SWE,29.2156057495,6-2 6-7 6-1,3,R16,,,,,,,,,,,,,,,,,,,,87,,232,

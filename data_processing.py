@@ -31,29 +31,50 @@ def combine_file(directory):
     return frame
 
 
+def main_data(directory):
+    """
+    Tests the main dataset from 1968-2021
+    """
+    data = combine_file(directory)
+    print(tennis.first_set_win(data))
+    tennis.court_surface(data)
+    tennis.hand_dominance(data)
+    tennis.predict_match_outcome(data)
+
+
+def test_empty(directory):
+    """
+    Tests empty file
+    """
+    empty_set = combine_file(directory)
+    assert tennis.first_set_win(empty_set) is None
+
+
+def test_data2(directory):
+    """
+    Tests data file 2
+    """
+    test_data = combine_file(directory)
+    assert tennis.first_set_win(test_data) == 78.78
+    tennis.court_surface(test_data)
+    tennis.hand_dominance(test_data)
+
+
+def test_data3(directory):
+    """
+    Tests data file 3
+    """
+    test_data = combine_file(directory)
+    assert tennis.first_set_win(test_data) == 71.79
+    tennis.court_surface(test_data)
+    tennis.hand_dominance(test_data)
+
+
 def main():
-    # directory = 'data/'
-    # data = combine_file(directory)
-    # print(tennis.first_set_win(data))
-    # tennis.court_surface(data)
-    # tennis.hand_dominance(data)
-    # tennis.predict_match_outcome(data)
-
-    # empty = 'testdata4/'
-    # empty_set = combine_file(empty)
-    # assert tennis.first_set_win(empty_set) is None
-
-    test_directory = 'testdata2/'
-    data2_test = combine_file(test_directory)
-    assert tennis.first_set_win(data2_test) == 78.78
-    tennis.court_surface(data2_test)
-    tennis.hand_dominance(data2_test)
-
-    # test3_directory = 'testdata3/'
-    # data3_test = combine_file(test3_directory)
-    # assert tennis.first_set_win(data3_test) == 85.71
-    # tennis.court_surface(data3_test) # this has key error
-    # tennis.hand_dominance(data3_test)
+    # main_data('data/')
+    # test_empty('testdata4/')
+    # test_data2('testdata2/')
+    # test_data3('testdata3/')
 
 
 if __name__ == '__main__':
