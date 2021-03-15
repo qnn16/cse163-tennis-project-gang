@@ -1,7 +1,8 @@
 """
 Name: Quang and Steven Nguyen
 CSE 163 Project: Analysis on Men’s Tennis Match Outcomes
-In this file,
+This file contains functions that are used to perform
+data analysis on our tennis dataset.
 """
 
 import pandas as pd
@@ -18,7 +19,8 @@ def court_surface(df):
     type of court. With plotly, the bar graph displays the name, games won
     on that court, number of times that player played on that court, and
     their winning percentage on that court.
-    Special cases:
+    Special cases: If the dataframe does not contain all 4 surfaces,
+    only the surfaces that are included will be graphed.
     """
     winner = df.groupby(['winner_name', 'surface'], as_index=False).size()
     loser = df.groupby(['loser_name', 'surface'], as_index=False).size()
@@ -177,6 +179,11 @@ def first_set_win(df):
 
 def hand_dominance(df):
     """
+    In this function, we are returning a graph of the hand dominance match-ups
+    between left and right handed players. Then also returning graphs of the
+    match-ups based on the type of courts.
+    Special cases: If the dataframe does not contain any players at a specific
+    court, it will not return a graph.
     """
     hand = df.loc[:, ['winner_hand', 'loser_hand', 'surface']]
     right = (hand['winner_hand'] == 'R') | (hand['loser_hand'] == 'R')
@@ -240,7 +247,10 @@ def hand_dominance(df):
 
 def predict_match_outcome(df):
     """
-    number of ace diff = abs(w_ace - 1_ace)
+    In this function, we are taking a dataset and making a machine learning
+    model. This will print the training and test accuracy scores.
+    Note: Because the dataset is quite large, it will take a while
+    (~3-5 minutes)
     """
     winner = df.loc[:, ['winner_name', 'score', 'w_ace', 'w_df', 'w_svpt',
                         'w_1stIn', 'w_1stWon', 'w_2ndWon', 'w_SvGms',
@@ -253,7 +263,6 @@ def predict_match_outcome(df):
                  'w_svpt': 'svpt', 'w_1stIn': '1stIn', 'w_1stWon': '1stWon',
                  'w_2ndWon': '2ndWon', 'w_SvGms': 'SvGms',
                  'w_bpSaved': 'bpSaved', 'w_bpFaced': 'bpFaced'})
-    # print(winner.head())
 
     loser = df.loc[:, ['loser_name', 'score', 'l_ace', 'l_df', 'l_svpt',
                        'l_1stIn', 'l_1stWon', 'l_2ndWon', 'l_SvGms',
@@ -266,10 +275,8 @@ def predict_match_outcome(df):
                  'l_svpt': 'svpt', 'l_1stIn': '1stIn', 'l_1stWon': '1stWon',
                  'l_2ndWon': '2ndWon', 'l_SvGms': 'SvGms',
                  'l_bpSaved': 'bpSaved', 'l_bpFaced': 'bpFaced'})
-    # print(loser.head())
 
     test = pd.concat([winner, loser], ignore_index=True)
-    # print(len(test))
 
     features = test.loc[:, test.columns != 'Won/Lost']
     features = pd.get_dummies(features)
