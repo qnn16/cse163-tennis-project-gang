@@ -136,6 +136,7 @@ def court_surface(df):
                       'Hard': '#636EFA'},
                   hover_data=['surface_total', 'win_rate'],
                   labels={
+                     'surface': 'Surface',
                      'name': 'Player Name',
                      'won': 'Matches Won',
                      'surface_total': 'Total Matches on Surface',
