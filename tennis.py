@@ -38,72 +38,76 @@ def court_surface(df):
 
     # top 10 grass court players
     grass_court = winner_loser[winner_loser['surface'] == 'Grass']
-    if grass_court.empty != True:
+    if grass_court.empty is not True:
         grass_court_top10 = grass_court.nlargest(10, 'won')
         fig1 = px.bar(grass_court_top10, x='name', y='won',
-                    hover_data=['surface_total', 'win_rate'],
-                    labels={
+                      hover_data=['surface_total', 'win_rate'],
+                      labels={
                         'name': 'Player Name',
                         'won': 'Matches Won',
                         'surface_total': 'Total Matches on Grass',
                         'win_rate': 'Winning Percentage on Grass'
-                    })
+                      })
         fig1.update_traces(marker_color='#00CC96')
-        fig1.update_layout(title_text='Players With the Most Wins on Grass Court',
-                        title_x=0.5)
+        fig1.update_layout(
+            title_text='Players With the Most Wins on Grass Court',
+            title_x=0.5)
         fig1.show()
 
     # top 10 hard court players
     hard_court = winner_loser[winner_loser['surface'] == 'Hard']
-    if hard_court.empty != True:
+    if hard_court.empty is not True:
         hard_court_top10 = hard_court.nlargest(10, 'won')
         fig2 = px.bar(hard_court_top10, x='name', y='won',
-                    color_discrete_sequence=['blue'],
-                    hover_data=['surface_total', 'win_rate'],
-                    labels={
+                      color_discrete_sequence=['blue'],
+                      hover_data=['surface_total', 'win_rate'],
+                      labels={
                         'name': 'Player Name',
                         'won': 'Matches Won',
                         'surface_total': 'Total Matches on Hard',
                         'win_rate': 'Winning Percentage on Hard'
-                    })
+                      })
         fig2.update_traces(marker_color='#636EFA')
-        fig2.update_layout(title='Players With the Most Wins on Hard Court',
-                        title_x=0.5)
+        fig2.update_layout(
+            title='Players With the Most Wins on Hard Court',
+            title_x=0.5)
         fig2.show()
 
     # top 10 clay court players
     clay_court = winner_loser[winner_loser['surface'] == 'Clay']
-    if clay_court.empty != True:
+    if clay_court.empty is not True:
         clay_court_top10 = clay_court.nlargest(10, 'won')
         fig3 = px.bar(clay_court_top10, x='name', y='won',
-                    color_discrete_sequence=['red'],
-                    hover_data=['surface_total', 'win_rate'],
-                    labels={
+                      color_discrete_sequence=['red'],
+                      hover_data=['surface_total', 'win_rate'],
+                      labels={
                         'name': 'Player Name',
                         'won': 'Matches Won',
                         'surface_total': 'Total Matches on Clay',
                         'win_rate': 'Winning Percentage on Clay'
-                    })
+                      })
         fig3.update_traces(marker_color='#EF553B')
-        fig3.update_layout(title_text='Players With the Most Wins on Clay Court',
-                        title_x=0.5)
+        fig3.update_layout(
+            title_text='Players With the Most Wins on Clay Court',
+            title_x=0.5)
         fig3.show()
 
     # top 10 carpet court players
     carpet_court = winner_loser[winner_loser['surface'] == 'Carpet']
-    if carpet_court.empty != True:
+    if carpet_court.empty is not True:
         carpet_court_top10 = carpet_court.nlargest(10, 'won')
         fig4 = px.bar(carpet_court_top10, x='name', y='won',
-                    color_discrete_sequence=['orange'],
-                    hover_data=['surface_total', 'win_rate'],
-                    labels={
+                      color_discrete_sequence=['orange'],
+                      hover_data=['surface_total', 'win_rate'],
+                      labels={
                         'name': 'Player Name',
                         'won': 'Matches Won',
                         'surface_total': 'Total Matches on Carpet',
                         'win_rate': 'Winning Percentage on Carpet'
-                    })
-        fig4.update_layout(title='Players With the Most Wins on Carpet Court',
-                        title_x=0.5)
+                      })
+        fig4.update_layout(
+            title='Players With the Most Wins on Carpet Court',
+            title_x=0.5)
         fig4.show()
 
     # top 10 players overall with the most wins
@@ -191,9 +195,9 @@ def hand_dominance(df):
 
     # hard court matchup stats
     hard = hand[hand['surface'] == 'Hard']
-    if hard.empty != True:
+    if hard.empty is not True:
         fig2 = px.pie(hard, values='counts', names='winner_hand',
-                    color_discrete_sequence=['blue'])
+                      color_discrete_sequence=['blue'])
         fig2.update_layout(
             title='Hard Court Win Percentage based on Hand Dominance',
             title_x=0.5)
@@ -202,9 +206,9 @@ def hand_dominance(df):
 
     # grass court matchup stats
     grass = hand[hand['surface'] == 'Grass']
-    if grass.empty != True:
+    if grass.empty is not True:
         fig3 = px.pie(grass, values='counts', names='winner_hand',
-                    color_discrete_sequence=['green'])
+                      color_discrete_sequence=['green'])
         fig3.update_layout(
             title='Grass Court Win Percentage based on Hand Dominance',
             title_x=0.5)
@@ -213,9 +217,9 @@ def hand_dominance(df):
 
     # clay court matchup stats
     clay = hand[hand['surface'] == 'Clay']
-    if clay.empty != True:
+    if clay.empty is not True:
         fig4 = px.pie(clay, values='counts', names='winner_hand',
-                    color_discrete_sequence=['red'])
+                      color_discrete_sequence=['red'])
         fig4.update_layout(
             title='Clay Court Win Percentage based on Hand Dominance',
             title_x=0.5)
@@ -224,9 +228,9 @@ def hand_dominance(df):
 
     # carpet court matchup stats
     carpet = hand[hand['surface'] == 'Carpet']
-    if carpet.empty != True:
+    if carpet.empty is not True:
         fig5 = px.pie(carpet, values='counts', names='winner_hand',
-                    color_discrete_sequence=['orange'])
+                      color_discrete_sequence=['orange'])
         fig5.update_layout(
             title='Carpet Court Win Percentage based on Hand Dominance',
             title_x=0.5)

@@ -4,7 +4,7 @@ CSE 163 Project: Analysis on Men’s Tennis Match Outcomes
 In this file, we have a function that combines all the files
 in our data folder and returns them as a single dataframe.
 It also runs the functions from our tennis file and includes
-test functions using other datasets. 
+test functions using other datasets.
 """
 import os
 import pandas as pd
@@ -71,7 +71,7 @@ def test_data3(directory):
 
 
 def main():
-    # main_data('data/')
+    main_data('data/')
     # test_empty('testdata4/')
     # test_data2('testdata2/')
     # test_data3('testdata3/')
