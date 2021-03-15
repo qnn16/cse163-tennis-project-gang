@@ -145,6 +145,12 @@ def court_surface(df):
                        title_x=0.5)
     fig5.show()
 
+    # fig1.write_html('graphs/court_surface/grass.html')
+    # fig2.write_html('graphs/court_surface/hard.html')
+    # fig3.write_html('graphs/court_surface/clay.html')
+    # fig4.write_html('graphs/court_surface/carpet.html')
+    # fig5.write_html('graphs/court_surface/top10overall.html')
+
 
 def first_set_win(df):
     """
@@ -243,6 +249,12 @@ def hand_dominance(df):
             title_x=0.5)
         fig5.update_traces(textposition='inside', textinfo='percent+label')
         fig5.show()
+
+    # fig1.write_html('graphs/hand_dominance/all_surfaces.html')
+    # fig2.write_html('graphs/hand_dominance/hard.html')
+    # fig3.write_html('graphs/hand_dominance/grass.html')
+    # fig4.write_html('graphs/hand_dominance/clay.html')
+    # fig5.write_html('graphs/hand_dominance/carpet.html')
 
 
 def predict_match_outcome(df):
