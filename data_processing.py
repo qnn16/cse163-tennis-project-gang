@@ -72,9 +72,9 @@ def test_data3(directory):
 
 def main():
     main_data('data/')
-    test_empty('testdata4/')
-    test_data2('testdata2/')
-    test_data3('testdata3/')
+    # test_empty('testdata4/')
+    # test_data2('testdata2/')
+    # test_data3('testdata3/')
 
 
 if __name__ == '__main__':
