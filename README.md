@@ -1,5 +1,8 @@
 # Analysis on Men's Professional Tennis Matches
 
+Our project uses all of the requisite Python packages and versions
+that was provided by the `environment.yaml` file on the CSE163 course page.
+
 We use the plotly and glob libraries in our project which may not already be installed for others.
 To install plotly this line of code can be ran in the terminal\
 `pip install plotly`
