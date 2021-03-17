@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\quack\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+    "python.pythonPath": "C:\\Users\\nqn01\\anaconda3\\envs\\cse163\\python.exe",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true

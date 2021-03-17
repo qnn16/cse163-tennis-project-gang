@@ -24,16 +24,17 @@ def court_surface(df):
     """
     winner = df.groupby(['winner_name', 'surface'], as_index=False).size()
     loser = df.groupby(['loser_name', 'surface'], as_index=False).size()
-    winner_loser = winner.merge(loser, left_on=['winner_name', 'surface'],
-                                right_on=['loser_name', 'surface'],
-                                how='inner')
-    winner_loser['surface_total'] = (winner_loser['size_x'] +
-                                     winner_loser['size_y'])
+    winner_loser = pd.merge(winner.reset_index(), loser.reset_index(),
+                            left_on=['winner_name', 'surface'],
+                            right_on=['loser_name', 'surface'],
+                            how='inner')
+    winner_loser['surface_total'] = (winner_loser['0_x'] +
+                                     winner_loser['0_y'])
     winner_loser['total_matches'] = (winner_loser['surface_total']
                                      .groupby(winner_loser['winner_name'])
                                      .transform('sum'))
     winner_loser = winner_loser.rename(columns={'winner_name': 'name',
-                                       'size_x': 'won', 'size_y': 'lost'})
+                                       '0_x': 'won', '0_y': 'lost'})
     winner_loser = winner_loser.drop(['loser_name'], axis=1)
     winner_loser['win_rate'] = round((winner_loser['won'] /
                                       winner_loser['surface_total']) * 100, 2)
@@ -196,8 +197,9 @@ def hand_dominance(df):
     right = (hand['winner_hand'] == 'R') | (hand['loser_hand'] == 'R')
     left = (hand['winner_hand'] == 'L') | (hand['loser_hand'] == 'L')
     hand = hand[right & left]
-    hand = hand.value_counts().to_frame().reset_index()
-    hand.columns = ['winner_hand', 'loser_hand', 'surface', 'counts']
+    hand = (hand.groupby(['surface', 'winner_hand', 'loser_hand'])
+                .size().to_frame().reset_index())
+    hand.columns = ['surface', 'winner_hand', 'loser_hand', 'counts']
 
     # overall matchup statistics no matter the court
     fig1 = px.pie(hand, values='counts', names='winner_hand')
