@@ -265,7 +265,7 @@ def predict_match_outcome(df):
     Note: Because the dataset is quite large, it will take a while
     (~3-5 minutes)
     """
-    winner = df.loc[:, ['winner_name', 'score', 'w_ace', 'w_df', 'w_svpt',
+    winner = df.loc[:, ['winner_name', 'w_ace', 'w_df', 'w_svpt',
                         'w_1stIn', 'w_1stWon', 'w_2ndWon', 'w_SvGms',
                         'w_bpSaved', 'w_bpFaced']]
 
@@ -277,7 +277,7 @@ def predict_match_outcome(df):
                  'w_2ndWon': '2ndWon', 'w_SvGms': 'SvGms',
                  'w_bpSaved': 'bpSaved', 'w_bpFaced': 'bpFaced'})
 
-    loser = df.loc[:, ['loser_name', 'score', 'l_ace', 'l_df', 'l_svpt',
+    loser = df.loc[:, ['loser_name', 'l_ace', 'l_df', 'l_svpt',
                        'l_1stIn', 'l_1stWon', 'l_2ndWon', 'l_SvGms',
                        'l_bpSaved', 'l_bpFaced']]
 
