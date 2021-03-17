@@ -3,12 +3,9 @@
 Our project uses all of the requisite Python packages and versions
 that was provided by the `environment.yaml` file on the CSE163 course page.
 
-We use the plotly and glob libraries in our project which may not already be installed for others.
+We use the plotly library in our project which is not already included in the `environment.yaml` file
 To install plotly this line of code can be ran in the terminal\
 `pip install plotly`
-
->Glob may be needed to be installed as well if the file doesn't run at first
-> `pip install glob2`
 
 To reproduce our project results, clone the repository and run the `data_processing.py` file.
 Our data is included in csv format in the `data` folder.
