@@ -1,8 +1,8 @@
 # Analysis on Men's Professional Tennis Matches
 
 We use the plotly and glob libraries in our project which may not already be installed for others.
-To install plotly and glob, these lines of code can be ran in the terminal
-`pip install plotly==4.14.3`
+To install plotly and glob, these lines of code can be ran in the terminal\
+`pip install plotly==4.14.3`\
 `pip install glob2`
 
 To reproduce our project results, run the `data_processing.py` file and
